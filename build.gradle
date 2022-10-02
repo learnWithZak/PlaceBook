@@ -1,4 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        maps_services_version = '17.0.0'
+        location_services_version = '18.0.0'
+    }
+}
 plugins {
     id 'com.android.application' version '7.4.0-alpha10' apply false
     id 'com.android.library' version '7.4.0-alpha10' apply false
