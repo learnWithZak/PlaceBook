@@ -2,6 +2,7 @@ package com.zak.placebook
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,11 +15,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
 import com.zak.placebook.databinding.ActivityMapsBinding
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.zak.placebook.BuildConfig.MAPS_API_KEY
@@ -115,23 +119,66 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun displayPoi(pointOfInterest: PointOfInterest) {
+        displayPoiGetPlaceStep(pointOfInterest)
+    }
+
+    private fun displayPoiGetPlaceStep(pointOfInterest: PointOfInterest) {
         val placeId = pointOfInterest.placeId
-        val placeFields = listOf(Place.Field.ID,
+        val placeFields = listOf(
+            Place.Field.ID,
             Place.Field.NAME,
             Place.Field.PHONE_NUMBER,
             Place.Field.PHOTO_METADATAS,
             Place.Field.ADDRESS,
-            Place.Field.LAT_LNG)
+            Place.Field.LAT_LNG
+        )
         val request = FetchPlaceRequest.builder(placeId, placeFields).build()
         placesClient.fetchPlace(request)
             .addOnSuccessListener { response ->
                 val place = response.place
-                Toast.makeText(this, "${place.name}, ${place.phoneNumber ?: "Unknown phone number"}", Toast.LENGTH_LONG).show()
+                displayPoiGetPhotoStep(place)
             }.addOnFailureListener { exception ->
                 if (exception is ApiException) {
                     val statusCode = exception.statusCode
                     Log.e(TAG, "Place not found: ${exception.message}, statusCode: $statusCode")
                 }
             }
+    }
+
+    private fun displayPoiGetPhotoStep(place: Place) {
+        val photoMetadata = place.photoMetadatas?.get(0)
+        if (photoMetadata == null) {
+            displayPoiDisplayStep(place, null)
+            return
+        }
+        val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+            .setMaxWidth(resources.getDimensionPixelSize(R.dimen.default_image_width))
+            .setMaxHeight(resources.getDimensionPixelSize(R.dimen.default_image_height))
+            .build()
+
+        placesClient.fetchPhoto(photoRequest)
+            .addOnSuccessListener { fetchPhotoResponse ->
+                val bitmap = fetchPhotoResponse.bitmap
+                displayPoiDisplayStep(place, bitmap)
+
+            }.addOnFailureListener {  exception ->
+                if (exception is ApiException) {
+                    val statusCode = exception.statusCode
+                    Log.e(TAG, "Place not found: ${exception.message}, statusCode: $statusCode")
+                }
+            }
+    }
+
+    private fun displayPoiDisplayStep(place: Place, photo: Bitmap?) {
+        val iconPhoto = if (photo == null) {
+            BitmapDescriptorFactory.defaultMarker()
+        } else {
+            BitmapDescriptorFactory.fromBitmap(photo)
+        }
+        map.addMarker(MarkerOptions()
+            .position(place.latLng as LatLng)
+            .icon(iconPhoto)
+            .title(place.name)
+            .snippet(place.phoneNumber))
     }
 }
