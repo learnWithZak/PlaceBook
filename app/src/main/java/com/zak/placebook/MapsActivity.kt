@@ -172,9 +172,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun displayPoiDisplayStep(place: Place, photo: Bitmap?) {
-        map.addMarker(MarkerOptions()
+        val marker = map.addMarker(MarkerOptions()
             .position(place.latLng as LatLng)
             .title(place.name)
             .snippet(place.phoneNumber))
+        marker?.tag = photo
     }
 }
