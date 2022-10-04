@@ -26,6 +26,7 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.zak.placebook.BuildConfig.MAPS_API_KEY
+import com.zak.placebook.adapter.BookmarkInfoWindowAdapter
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -64,6 +65,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setInfoWindowAdapter(BookmarkInfoWindowAdapter(this))
         getCurrentLocation()
         map.setOnPoiClickListener {
             displayPoi(it)
@@ -170,14 +172,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun displayPoiDisplayStep(place: Place, photo: Bitmap?) {
-        val iconPhoto = if (photo == null) {
-            BitmapDescriptorFactory.defaultMarker()
-        } else {
-            BitmapDescriptorFactory.fromBitmap(photo)
-        }
         map.addMarker(MarkerOptions()
             .position(place.latLng as LatLng)
-            .icon(iconPhoto)
             .title(place.name)
             .snippet(place.phoneNumber))
     }
