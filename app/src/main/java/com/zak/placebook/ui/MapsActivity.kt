@@ -1,4 +1,4 @@
-package com.zak.placebook
+package com.zak.placebook.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
@@ -15,7 +14,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
@@ -26,6 +24,7 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.zak.placebook.BuildConfig.MAPS_API_KEY
+import com.zak.placebook.R
 import com.zak.placebook.adapter.BookmarkInfoWindowAdapter
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -99,7 +98,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun requestLocationPermissions() {
         ActivityCompat.requestPermissions(this,
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            REQUEST_LOCATION)
+            REQUEST_LOCATION
+        )
     }
 
     private fun getCurrentLocation() {
