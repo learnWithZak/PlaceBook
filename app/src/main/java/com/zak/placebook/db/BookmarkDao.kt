@@ -23,7 +23,7 @@ interface BookmarkDao {
     fun loadLiveBookmark(bookmarkId: Long): LiveData<Bookmark>
 
     @Insert(onConflict = IGNORE)
-    fun insertBookmark(bookmark: Bookmark): Long
+    fun insertBookmark(bookmark: Bookmark): Long?
 
     @Update(onConflict = REPLACE)
     fun updateBookmark(bookmark: Bookmark)
