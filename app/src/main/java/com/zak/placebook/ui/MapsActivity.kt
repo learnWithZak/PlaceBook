@@ -29,6 +29,8 @@ import com.zak.placebook.BuildConfig.MAPS_API_KEY
 import com.zak.placebook.R
 import com.zak.placebook.adapter.BookmarkInfoWindowAdapter
 import com.zak.placebook.viewmodel.MapsViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -193,7 +195,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun handleInfoWindowClick(marker: Marker) {
         val placeInfo = (marker.tag as PlaceInfo)
         if (placeInfo.place != null) {
-            mapsViewModel.addBookmarkFromPlace(placeInfo.place, placeInfo.image)
+            GlobalScope.launch {
+                mapsViewModel.addBookmarkFromPlace(placeInfo.place, placeInfo.image)
+            }
         }
         marker.remove()
     }
