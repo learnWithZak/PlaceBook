@@ -4,7 +4,7 @@ buildscript {
         maps_services_version = '18.1.0'
         location_services_version = '20.0.0'
         lifecycle_version = '2.5.1'
-        room_version = '2.2.6'
+        room_version = '2.4.3'
     }
 }
 plugins {
