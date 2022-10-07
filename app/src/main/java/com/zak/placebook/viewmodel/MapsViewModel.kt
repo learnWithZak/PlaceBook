@@ -18,8 +18,8 @@ class MapsViewModel(application: Application): AndroidViewModel(application) {
         bookmark.name = place.name.toString()
         bookmark.longitude = place.latLng?.longitude ?: 0.0
         bookmark.latitude = place.latLng?.latitude ?: 0.0
-        bookmark.phone = place.phoneNumber.toString()
-        bookmark.address = place.address.toString()
+        bookmark.phone = place.phoneNumber?.toString() ?: ""
+        bookmark.address = place.address?.toString() ?: ""
 
         val newId = bookmarkRepo.addBookmark(bookmark)
         Log.i(TAG, "New bookmark $newId added to the database")
