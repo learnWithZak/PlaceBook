@@ -16,7 +16,7 @@ class BookmarkInfoWindowAdapter(context: Activity): InfoWindowAdapter {
         binding.title.text = p0.title ?: "UNKNOWN"
         binding.phone.text = p0.snippet ?: "UNKNOWN"
         val imageView = binding.photo
-        imageView.setImageBitmap((p0.tag as MapsActivity.PlaceInfo).image)
+        imageView.setImageBitmap((p0.tag as? MapsActivity.PlaceInfo)?.image)
         return binding.root
     }
 
