@@ -1,22 +1,31 @@
 package com.zak.placebook.adapter
 
 import android.app.Activity
-import android.graphics.Bitmap
 import android.view.View
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.model.Marker
 import com.zak.placebook.databinding.ContentBookmarkInfoBinding
 import com.zak.placebook.ui.MapsActivity
+import com.zak.placebook.viewmodel.MapsViewModel
 
-class BookmarkInfoWindowAdapter(context: Activity): InfoWindowAdapter {
+class BookmarkInfoWindowAdapter(val context: Activity) : InfoWindowAdapter {
 
     private val binding = ContentBookmarkInfoBinding.inflate(context.layoutInflater)
 
-    override fun getInfoContents(p0: Marker): View? {
-        binding.title.text = p0.title ?: "UNKNOWN"
-        binding.phone.text = p0.snippet ?: "UNKNOWN"
+    override fun getInfoContents(marker: Marker): View? {
+        binding.title.text = marker.title ?: ""
+        binding.phone.text = marker.snippet ?: ""
         val imageView = binding.photo
-        imageView.setImageBitmap((p0.tag as? MapsActivity.PlaceInfo)?.image)
+        when (marker.tag) {
+            is MapsActivity.PlaceInfo -> {
+                imageView.setImageBitmap((marker.tag as MapsActivity.PlaceInfo).image)
+            }
+            is MapsViewModel.BookmarkMarkerView -> {
+                val bookmarkView = marker.tag as MapsViewModel.BookmarkMarkerView
+                imageView.setImageBitmap(bookmarkView.getImage(context))
+            }
+        }
         return binding.root
     }
 
