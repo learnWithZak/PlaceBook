@@ -56,4 +56,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation 'com.google.android.material:material:1.6.1'
 }
