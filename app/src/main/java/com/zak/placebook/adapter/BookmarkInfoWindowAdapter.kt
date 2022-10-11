@@ -2,7 +2,6 @@ package com.zak.placebook.adapter
 
 import android.app.Activity
 import android.view.View
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.model.Marker
 import com.zak.placebook.databinding.ContentBookmarkInfoBinding
@@ -21,8 +20,8 @@ class BookmarkInfoWindowAdapter(val context: Activity) : InfoWindowAdapter {
             is MapsActivity.PlaceInfo -> {
                 imageView.setImageBitmap((marker.tag as MapsActivity.PlaceInfo).image)
             }
-            is MapsViewModel.BookmarkMarkerView -> {
-                val bookmarkView = marker.tag as MapsViewModel.BookmarkMarkerView
+            is MapsViewModel.BookmarkView -> {
+                val bookmarkView = marker.tag as MapsViewModel.BookmarkView
                 imageView.setImageBitmap(bookmarkView.getImage(context))
             }
         }
