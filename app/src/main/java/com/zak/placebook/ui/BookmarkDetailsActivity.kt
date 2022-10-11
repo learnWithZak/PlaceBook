@@ -1,5 +1,6 @@
 package com.zak.placebook.ui
 
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -18,6 +19,20 @@ class BookmarkDetailsActivity : AppCompatActivity() {
         setupToolbar()
         getIntentData()
     }
+
+    override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_bookmark_details, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_save -> {
+            saveChanges()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
 
     private fun setupToolbar() {
         setSupportActionBar(databinding.toolbar)
@@ -41,5 +56,20 @@ class BookmarkDetailsActivity : AppCompatActivity() {
                 populateImageView()
             }
         }
+    }
+
+    private fun saveChanges() {
+        val name = databinding.editTextName.text.toString()
+        if (name.isEmpty()) {
+            return
+        }
+        bookmarkDetailsView?.let { bookmarkView ->
+            bookmarkView.name = databinding.editTextName.text.toString()
+            bookmarkView.notes = databinding.editTextNotes.text.toString()
+            bookmarkView.address = databinding.editTextAddress.text.toString()
+            bookmarkView.phone = databinding.editTextPhone.text.toString()
+            bookmarkDetailsViewModel.updateBookmark(bookmarkView)
+        }
+        finish()
     }
 }

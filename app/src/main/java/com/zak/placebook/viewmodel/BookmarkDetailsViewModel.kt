@@ -8,6 +8,8 @@ import androidx.lifecycle.Transformations
 import com.zak.placebook.model.Bookmark
 import com.zak.placebook.repository.BookmarkRepo
 import com.zak.placebook.util.ImageUtils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class BookmarkDetailsViewModel(application: Application): AndroidViewModel(application) {
 
@@ -49,4 +51,26 @@ class BookmarkDetailsViewModel(application: Application): AndroidViewModel(appli
         }
         return bookmarkDetailsView
     }
+
+    private fun bookmarkViewToBookmark(bookmarkView: BookmarkDetailsView): Bookmark? {
+        val bookmark = bookmarkView.id?.let {
+            bookmarkRepo.getBookmark(it)
+        }
+        if (bookmark != null) {
+            bookmark.id = bookmarkView.id
+            bookmark.name = bookmarkView.name
+            bookmark.phone = bookmarkView.phone
+            bookmark.address = bookmarkView.address
+            bookmark.notes = bookmarkView.notes
+        }
+        return bookmark
+    }
+
+    fun updateBookmark(bookmarkView: BookmarkDetailsView) {
+        GlobalScope.launch {
+            val bookmark = bookmarkViewToBookmark(bookmarkView)
+            bookmark?.let { bookmarkRepo.updateBookmark(it) }
+        }
+    }
+
 }
