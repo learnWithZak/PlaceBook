@@ -21,7 +21,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="@color/material_dynamic_primary0"
+                android:background="@color/colorAccent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
 
