@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
@@ -100,6 +101,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupToolbar() {
         setSupportActionBar(databinding.mainMapView.toolbar)
+        val toggle = ActionBarDrawerToggle(this,
+            databinding.drawerLayout,
+            databinding.mainMapView.toolbar,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        toggle.syncState()
     }
 
     override fun onRequestPermissionsResult(
