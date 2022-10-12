@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -45,6 +46,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val mapsViewModel by viewModels<MapsViewModel>()
     private lateinit var databinding: ActivityMapsBinding
     private lateinit var bookmarkListAdapter: BookmarkListAdapter
+    private var markers = HashMap<Long, Marker>()
 
     companion object {
         private const val REQUEST_LOCATION = 1
@@ -245,12 +247,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .alpha(0.8f))
 
         marker?.tag = bookmark
+        bookmark.id?.let {
+            if (marker != null) {
+                markers[it] = marker
+            }
+        }
         return marker
     }
 
     private fun createBookmarkObserver() {
         mapsViewModel.getBookmarkViews()?.observe(this) { bookmarkMarkerViews ->
             map.clear()
+            markers.clear()
             bookmarkMarkerViews?.let {
                 displayAllBookmarks(it)
                 bookmarkListAdapter.setBookmarkData(it)
@@ -275,6 +283,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         databinding.drawerViewMaps.bookmarkRecyclerView.layoutManager = layoutManager
         bookmarkListAdapter = BookmarkListAdapter(null, this)
         databinding.drawerViewMaps.bookmarkRecyclerView.adapter = bookmarkListAdapter
+    }
+
+    private fun updateMapToLocation(location: Location) {
+        val latLng = LatLng(location.latitude, location.longitude)
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f))
+    }
+
+    fun moveToBookmark(bookmark: MapsViewModel.BookmarkView) {
+        databinding.drawerLayout.closeDrawer(databinding.drawerViewMaps.drawerView)
+        val marker = markers[bookmark.id]
+        marker?.showInfoWindow()
+        val location = Location("")
+        location.latitude = bookmark.location.latitude
+        location.longitude = bookmark.location.longitude
+        updateMapToLocation(location)
     }
 
     class PlaceInfo(val place: Place? = null, val image: Bitmap? = null)
