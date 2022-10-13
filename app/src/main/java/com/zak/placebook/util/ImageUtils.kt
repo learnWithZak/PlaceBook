@@ -3,9 +3,13 @@ package com.zak.placebook.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 object ImageUtils {
 
@@ -30,5 +34,13 @@ object ImageUtils {
     fun loadBitmapFromFile(context: Context, filename: String): Bitmap? {
         val filePath = File(context.filesDir, filename).absolutePath
         return BitmapFactory.decodeFile(filePath)
+    }
+
+    @Throws(IOException::class)
+    fun createUniqueImageFile(context: Context): File {
+        val timeStamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+        val filename = "PlaceBook_" + timeStamp + "_"
+        val filesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(filename, ".jpg", filesDir)
     }
 }
