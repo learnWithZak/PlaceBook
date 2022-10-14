@@ -3,6 +3,7 @@ package com.zak.placebook.ui
 import android.content.Intent
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
+import android.graphics.Bitmap
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.view.MenuItem
@@ -49,6 +50,23 @@ class BookmarkDetailsActivity : AppCompatActivity(),
         else -> super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == android.app.Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_CAPTURE_IMAGE -> {
+                    val photoFile = photoFile ?: return
+                    val uri = FileProvider.getUriForFile(this,
+                        "com.zak.placebook.fileprovider",
+                        photoFile)
+                    revokeUriPermission(uri, FLAG_GRANT_WRITE_URI_PERMISSION)
+                    val image = getImageWithPath(photoFile.absolutePath)
+                    val bitmap = ImageUtils.rotateImageIfRequired(this, image , uri)
+                    updateImage(bitmap)
+                }
+            }
+        }
+    }
 
     private fun setupToolbar() {
         setSupportActionBar(databinding.toolbar)
@@ -96,6 +114,19 @@ class BookmarkDetailsActivity : AppCompatActivity(),
         val newFragment = PhotoOptionDialogFragment.newInstance(this)
         newFragment?.show(supportFragmentManager, "photoOptionDialog")
     }
+
+    private fun updateImage(image: Bitmap) {
+        bookmarkDetailsView?.let {
+            databinding.imageViewPlace.setImageBitmap(image)
+            it.setImage(this, image)
+        }
+    }
+
+    private fun getImageWithPath(filePath: String) = ImageUtils.decodeFileToSize(
+        filePath,
+        resources.getDimensionPixelSize(R.dimen.default_image_width),
+        resources.getDimensionPixelSize(R.dimen.default_image_height)
+    )
 
     override fun onCaptureClick() {
         photoFile = null
