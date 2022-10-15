@@ -4,8 +4,10 @@ import android.content.Intent
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
 import android.graphics.Bitmap
+import android.net.Uri
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -28,6 +30,7 @@ class BookmarkDetailsActivity : AppCompatActivity(),
 
     companion object {
         private const val REQUEST_CAPTURE_IMAGE = 1
+        private const val REQUEST_GALLERY_IMAGE = 2
     }
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
@@ -63,6 +66,14 @@ class BookmarkDetailsActivity : AppCompatActivity(),
                     val image = getImageWithPath(photoFile.absolutePath)
                     val bitmap = ImageUtils.rotateImageIfRequired(this, image , uri)
                     updateImage(bitmap)
+                }
+                REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
+                    val imageUri = data.data as Uri
+                    val image = getImageWithAuthority(imageUri)
+                    image?.let {
+                        val bitmap = ImageUtils.rotateImageIfRequired(this, it, imageUri)
+                        updateImage(bitmap)
+                    }
                 }
             }
         }
@@ -151,6 +162,14 @@ class BookmarkDetailsActivity : AppCompatActivity(),
         }
     }
     override fun onPickClick() {
-        Toast.makeText(this, "Gallery Pick", Toast.LENGTH_SHORT).show()
+        val pickIntent = Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI)
+        startActivityForResult(pickIntent, REQUEST_GALLERY_IMAGE)
     }
+
+    private fun getImageWithAuthority(uri: Uri) = ImageUtils.decodeUriStreamToSize(
+        uri,
+        resources.getDimensionPixelSize(R.dimen.default_image_width),
+        resources.getDimensionPixelSize(R.dimen.default_image_height),
+        this
+    )
 }
