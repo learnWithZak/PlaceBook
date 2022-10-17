@@ -9,6 +9,9 @@ import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.MediaStore.EXTRA_OUTPUT
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -102,6 +105,7 @@ class BookmarkDetailsActivity : AppCompatActivity(),
                 bookmarkDetailsView = it
                 databinding.bookmarkDetailsView = it
                 populateImageView()
+                populateCategoryList()
             }
         }
     }
@@ -116,6 +120,7 @@ class BookmarkDetailsActivity : AppCompatActivity(),
             bookmarkView.notes = databinding.editTextNotes.text.toString()
             bookmarkView.address = databinding.editTextAddress.text.toString()
             bookmarkView.phone = databinding.editTextPhone.text.toString()
+            bookmarkView.category = databinding.spinnerCategory.selectedItem as String
             bookmarkDetailsViewModel.updateBookmark(bookmarkView)
         }
         finish()
@@ -172,4 +177,30 @@ class BookmarkDetailsActivity : AppCompatActivity(),
         resources.getDimensionPixelSize(R.dimen.default_image_height),
         this
     )
+
+    private fun populateCategoryList() {
+        val bookmarkView = bookmarkDetailsView ?: return
+        val resourceId = bookmarkDetailsViewModel.getCategoryResourceId(bookmarkView.category)
+        resourceId?.let { databinding.imageViewCategory.setImageResource(it) }
+        val categories = bookmarkDetailsViewModel.getCategories()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        databinding.spinnerCategory.adapter = adapter
+        val placeCategory = bookmarkView.category
+        databinding.spinnerCategory.setSelection(adapter.getPosition(placeCategory))
+        databinding.spinnerCategory.post {
+            databinding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                    val category = parent.getItemAtPosition(position) as String
+                    val resourceId = bookmarkDetailsViewModel.getCategoryResourceId(category)
+                    resourceId?.let {
+                        databinding.imageViewCategory.setImageResource(it) }
+                }
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // NOTE: This method is required but not used.
+                }
+            }
+        }
+
+    }
 }

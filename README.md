@@ -13,3 +13,4 @@ When you add bookmarks for a variety of place types, notice the different icons 
 3. Shopping bookmarks.
 4. Other bookmarks.
 
+You can also change the category assigned to a place.

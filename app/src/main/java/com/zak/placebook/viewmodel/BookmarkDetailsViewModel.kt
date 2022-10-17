@@ -22,7 +22,8 @@ class BookmarkDetailsViewModel(application: Application): AndroidViewModel(appli
         var name: String = "",
         var phone: String = "",
         var address: String = "",
-        var notes: String = ""
+        var notes: String = "",
+        var category: String = ""
     ) {
         fun getImage(context: Context) = id?.let {
             ImageUtils.loadBitmapFromFile(context, Bookmark.generateImageFilename(it))
@@ -41,7 +42,8 @@ class BookmarkDetailsViewModel(application: Application): AndroidViewModel(appli
             name = bookmark.name,
             phone = bookmark.phone,
             address = bookmark.address,
-            notes = bookmark.notes
+            notes = bookmark.notes,
+            category = bookmark.category
         )
     }
 
@@ -59,16 +61,17 @@ class BookmarkDetailsViewModel(application: Application): AndroidViewModel(appli
         return bookmarkDetailsView
     }
 
-    private fun bookmarkViewToBookmark(bookmarkView: BookmarkDetailsView): Bookmark? {
-        val bookmark = bookmarkView.id?.let {
+    private fun bookmarkViewToBookmark(bookmarkDetailsView: BookmarkDetailsView): Bookmark? {
+        val bookmark = bookmarkDetailsView.id?.let {
             bookmarkRepo.getBookmark(it)
         }
         if (bookmark != null) {
-            bookmark.id = bookmarkView.id
-            bookmark.name = bookmarkView.name
-            bookmark.phone = bookmarkView.phone
-            bookmark.address = bookmarkView.address
-            bookmark.notes = bookmarkView.notes
+            bookmark.id = bookmarkDetailsView.id
+            bookmark.name = bookmarkDetailsView.name
+            bookmark.phone = bookmarkDetailsView.phone
+            bookmark.address = bookmarkDetailsView.address
+            bookmark.notes = bookmarkDetailsView.notes
+            bookmark.category = bookmarkDetailsView.category
         }
         return bookmark
     }
@@ -80,4 +83,11 @@ class BookmarkDetailsViewModel(application: Application): AndroidViewModel(appli
         }
     }
 
+    fun getCategoryResourceId(category: String): Int? {
+        return bookmarkRepo.getCategoryResourceId(category)
+    }
+
+    fun getCategories(): List<String> {
+        return bookmarkRepo.categories
+    }
 }
