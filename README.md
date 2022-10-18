@@ -14,3 +14,4 @@ When you add bookmarks for a variety of place types, notice the different icons 
 4. Other bookmarks.
 
 You can also change the category assigned to a place.
+As you type in a place name or address, the search widget displays a dynamic list of choices.
