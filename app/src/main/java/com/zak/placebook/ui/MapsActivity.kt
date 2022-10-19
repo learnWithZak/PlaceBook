@@ -122,6 +122,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         map.setOnInfoWindowClickListener {
             handleInfoWindowClick(it)
         }
+        databinding.mainMapView.fab.setOnClickListener {
+            searchAtCurrentLocation()
+        }
     }
 
     private fun setupPlacesClient() {
