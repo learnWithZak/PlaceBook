@@ -16,3 +16,4 @@ When you add bookmarks for a variety of place types, notice the different icons 
 ## How to use the app
 You can also change the category assigned to a place.
 As you type in a place name or address, the search widget displays a dynamic list of choices.
+Long-tap anywhere on the map and the bookmark Activity screen pops up with a new untitled bookmark using a default photo.
