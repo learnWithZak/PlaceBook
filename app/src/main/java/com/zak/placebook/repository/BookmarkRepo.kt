@@ -7,7 +7,7 @@ import com.zak.placebook.R
 import com.zak.placebook.db.PlaceBookDatabase
 import com.zak.placebook.model.Bookmark
 
-class BookmarkRepo(context: Context) {
+class BookmarkRepo(private val context: Context) {
 
     private val db = PlaceBookDatabase.getInstance(context)
     private val bookmarkDao = db.bookmarkDao()
@@ -86,5 +86,10 @@ class BookmarkRepo(context: Context) {
 
     fun getCategoryResourceId(plateCategory: String): Int? {
         return allCategories[plateCategory]
+    }
+
+    fun deleteBookmark(bookmark: Bookmark) {
+        bookmark.deleteImage(context)
+        bookmarkDao.deleteBookmark(bookmark)
     }
 }

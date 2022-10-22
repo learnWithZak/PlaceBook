@@ -14,6 +14,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -51,6 +52,10 @@ class BookmarkDetailsActivity : AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_save -> {
             saveChanges()
+            true
+        }
+        R.id.action_delete -> {
+            deleteBookmark()
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -202,5 +207,18 @@ class BookmarkDetailsActivity : AppCompatActivity(),
             }
         }
 
+    }
+
+    private fun deleteBookmark() {
+        val bookmarkView = bookmarkDetailsView ?: return
+        AlertDialog.Builder(this)
+            .setMessage("Delete")
+            .setPositiveButton("Ok") {_, _ ->
+                bookmarkDetailsViewModel.deleteBookmark(bookmarkView)
+                finish()
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+            .show()
     }
 }
