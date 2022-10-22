@@ -125,6 +125,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         databinding.mainMapView.fab.setOnClickListener {
             searchAtCurrentLocation()
         }
+        map.setOnMapLongClickListener { latLng ->
+            newBookmark(latLng)
+        }
     }
 
     private fun setupPlacesClient() {
@@ -355,6 +358,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this, "Problem Searching", Toast.LENGTH_LONG).show()
         } catch (e: GooglePlayServicesNotAvailableException) {
             Toast.makeText(this, "Problem Searching, Google play not available", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun newBookmark(latLng: LatLng) {
+        GlobalScope.launch {
+            val bookmarkId = mapsViewModel.addBookmark(latLng)
+            bookmarkId?.let { startBookmarkDetails(it) }
         }
     }
 
