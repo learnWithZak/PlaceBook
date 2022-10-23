@@ -24,6 +24,7 @@ import com.zak.placebook.util.ImageUtils
 import com.zak.placebook.viewmodel.BookmarkDetailsViewModel
 import java.io.File
 import java.io.IOException
+import java.net.URLEncoder
 
 class BookmarkDetailsActivity : AppCompatActivity(),
     PhotoOptionDialogFragment.PhotoOptionDialogListener {
@@ -42,6 +43,7 @@ class BookmarkDetailsActivity : AppCompatActivity(),
         databinding = DataBindingUtil.setContentView(this, R.layout.activity_bookmark_details)
         setupToolbar()
         getIntentData()
+        setupFab()
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
@@ -220,5 +222,33 @@ class BookmarkDetailsActivity : AppCompatActivity(),
             .setNegativeButton("Cancel", null)
             .create()
             .show()
+    }
+
+    private fun sharePlace() {
+        val bookmarkView = bookmarkDetailsView ?: return
+        var mapUrl = ""
+        mapUrl = if (bookmarkView.placeId == null) {
+            val location = URLEncoder.encode("${bookmarkView.latitude},"
+                    + "${bookmarkView.longitude}", "utf-8")
+            "https://www.google.com/maps/dir/?api=1" +
+                    "&destination=$location"
+        } else {
+            val name = URLEncoder.encode(bookmarkView.name, "utf-8")
+            "https://www.google.com/maps/dir/?api=1" +
+                    "&destination=$name&destination_place_id=" +
+                    "${bookmarkView.placeId}"
+        }
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out ${bookmarkView.name} at:\n$mapUrl")
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Sharing ${bookmarkView.name}")
+        sendIntent.type = "text/plain"
+        startActivity(sendIntent)
+    }
+
+    private fun setupFab() {
+        databinding.fab.setOnClickListener {
+            sharePlace()
+        }
     }
 }
