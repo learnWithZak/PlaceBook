@@ -7,21 +7,11 @@
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PlaceBook"
-        tools:targetApi="33">
-        <activity
-            android:name=".ui.BookmarkDetailsActivity"
-            android:label="Bookmark"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
+        android:theme="@style/AppTheme">
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -49,6 +39,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.zak.placebook.ui.BookmarkDetailsActivity"
+            android:label="Bookmark"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.zak.placebook.fileprovider"
@@ -60,7 +57,6 @@
         </provider>
 
     </application>
-
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
