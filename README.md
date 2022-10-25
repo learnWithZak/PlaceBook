@@ -16,6 +16,7 @@ This application uses:
 7. *Coroutines.*
 8. *Implicit intent* to share data with other apps.
 
+
 ## How to use
 At startup, the map is automatically centered on the user’s location.
 The user can tap on the map to create a bookmark at a specific place (with latitude and longitude), choose a specific category, add some additional notes (the best menu items!), edit his notes, take a photo or get it from the gallery, and he can also share those reminders with other people ;)
@@ -37,5 +38,13 @@ As said earlier, the user can also change the category assigned to a place. When
 ### Google Autocomplete
 As the user types in a place name or address, the search widget displays a dynamic list of choices.
 
+https://user-images.githubusercontent.com/111642558/197823495-ffbe1697-c731-49d8-a17e-cda6bdabda1e.mp4
+
+
 ### Untitled bookmarks
 Long-tap anywhere on the map and the bookmark Activity screen pops up with a new untitled bookmark using a default photo.
+
+### Share your notes with others
+As you can see in this video demo, you can share your notes with your friends.
+Also, you can choose/change the category of the bookmark
+https://user-images.githubusercontent.com/111642558/197823571-56c26091-1e45-40c6-ac9c-8a0d4d6a3258.mp4
