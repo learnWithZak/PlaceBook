@@ -47,4 +47,5 @@ Long-tap anywhere on the map and the bookmark Activity screen pops up with a new
 ### Share your notes with others
 As you can see in this video demo, you can share your notes with your friends.
 Also, you can choose/change the category of the bookmark
+
 https://user-images.githubusercontent.com/111642558/197823571-56c26091-1e45-40c6-ac9c-8a0d4d6a3258.mp4
