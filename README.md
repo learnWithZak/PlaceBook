@@ -44,6 +44,12 @@ https://user-images.githubusercontent.com/111642558/197823495-ffbe1697-c731-49d8
 ### Untitled bookmarks
 Long-tap anywhere on the map and the bookmark Activity screen pops up with a new untitled bookmark using a default photo.
 
+
+https://user-images.githubusercontent.com/111642558/197928582-7f6257c7-0e71-47c0-bff2-32c479ddf1f2.mp4
+
+
+
+
 ### Share your notes with others
 As you can see in this video demo, you can share your notes with your friends.
 Also, you can choose/change the category of the bookmark
