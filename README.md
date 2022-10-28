@@ -1,11 +1,10 @@
 # PlaceBook
 
 ## Introduction
-This Android application shows a Google map to the user, and let him make some notes about the places he has visited.
+This Android application shows a Google map to the user, let him make some notes about the places he has visited.
 For example, imagine that he visited a local restaurant, and wants to keep reminders about the menu items that he likes, this app will help him do keep those notes.
 
 ## Used technology
-
 This application uses:
 1. *Google Maps API.*
 2. *Google Places API.*
@@ -18,12 +17,12 @@ This application uses:
 
 
 ## How to use
-At startup, the map is automatically centered on the user’s location.
-The user can tap on the map to create a bookmark at a specific place (with latitude and longitude), choose a specific category, add some additional notes (the best menu items!), edit his notes, take a photo or get it from the gallery, and he can also share those reminders with other people ;)
-The user can also search for a place
+At startup, the Google map is automatically centered on the user’s location.
+The user can tap on the map to create a bookmark at a specific place (with latitude and longitude), choose a specific category, add some additional notes (the best menu items for example!), edit his notes, take a photo or get it from the gallery, and share those reminders with his friends ;)
+The user can also search for a place using Google’s autocomplete API.
 
 ## Bookmark types
-As said earlier, the user can also change the category assigned to a place. When he adds bookmarks for a variety of place types, we added different icons that are displayed on the map :
+As said earlier, the user can change the category assigned to a place. When he adds bookmarks for a variety of place types, we added different icons that are displayed on the map :
 1. Gas category icons.
 2. Restaurant category icons.
 3. Shopping category icons.
@@ -37,14 +36,14 @@ https://user-images.githubusercontent.com/111642558/197823495-ffbe1697-c731-49d8
 
 
 ### Untitled bookmarks
-Long-tap anywhere on the map and the bookmark Activity screen pops up with a new untitled bookmark using a default photo.
+When the user long-tap anywhere on the map and the bookmark pops up with a new untitled bookmark using a default photo.
 
 https://user-images.githubusercontent.com/111642558/197928582-7f6257c7-0e71-47c0-bff2-32c479ddf1f2.mp4
 
 
 ### Share your notes with others
 As you can see in this video demo, you can share your notes with your friends.
-Also, you can choose/change the category of the bookmark
+Also, you can choose/change the category of the bookmark.
 
 https://user-images.githubusercontent.com/111642558/197823571-56c26091-1e45-40c6-ac9c-8a0d4d6a3258.mp4
 
