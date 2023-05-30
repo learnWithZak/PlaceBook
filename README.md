@@ -15,7 +15,6 @@ This application uses:
 7. *Coroutines.*
 8. *Implicit intent* to share data with other apps.
 
-
 ## How to use
 At startup, the Google map is automatically centered on the user’s location.
 The user can tap on the map to create a bookmark at a specific place (with latitude and longitude), choose a specific category, add some additional notes (the best menu items for example!), edit his notes, take a photo or get it from the gallery, and share those reminders with his friends ;)
